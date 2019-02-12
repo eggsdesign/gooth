@@ -52,6 +52,18 @@ function takePhoto() {
 	imageRoll.classList.remove('hidden')
 }
 
+function takePhotos(counter, interval){
+	var i = 0;
+	let photoInterval = setInterval(() => {
+		if (i >= counter) {
+			clearInterval(photoInterval)
+		} else {
+			takePhoto()
+			i++;
+		}
+	}, interval);
+}
+
 function makeGif() {
 	for (var i=0; i<imageBuffer.childElementCount; i++) {
 		gif.addFrame(imageBuffer.childNodes[i])
@@ -65,6 +77,6 @@ function makeGif() {
 	gif.render()
 }
 
-takePhotoButton.onclick = takePhoto
+takePhotoButton.onclick = ()=>{takePhotos(10, 500)}
 makeGIFButton.onclick = makeGif
 discardButton.onclick = ()=>{ location.reload() }
