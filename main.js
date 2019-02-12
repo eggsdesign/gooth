@@ -65,7 +65,6 @@ function makeGif() {
 	gif.render()
 }
 
-
 takePhotoButton.onclick = takePhoto
 makeGIFButton.onclick = makeGif
 discardButton.onclick = ()=>{ location.reload() }
