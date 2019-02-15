@@ -139,20 +139,6 @@ button.button--confirm {
 	text-align: center;
 }
 
-.app-header {
-	text-align: center;
-}
-
-.app-header-title {
-	font-size: 5em;
-	margin-top: 20px;
-	margin-bottom: 10px;
-}
-
-.app-header-subtitle {
-	font-size: 1.4em;
-}
-
 .flash {
 	animation: flash 1s;
 	position: absolute;
