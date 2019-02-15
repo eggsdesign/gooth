@@ -1,13 +1,13 @@
 @font-face {
 	font-family: Graphik-Bold;
-	src:url(assets/Graphik-Bold.woff) format("woff");
+	src:url(../assets/Graphik-Bold.woff) format("woff");
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face{
 	font-family: Graphik-Regular;
-	src:url(assets/Graphik-Regular.woff) format("woff");
+	src:url(../assets/Graphik-Regular.woff) format("woff");
 	font-weight: normal;
 	font-style: normal;
 }
