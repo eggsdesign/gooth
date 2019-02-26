@@ -8,23 +8,24 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="main.css">
 </head>
 <body>
-	<div class="app-header">
-		<h1 class="app-header-title">Gooth!</h1>
-		<span class="app-header-subtitle">The EGGS GIF Booth</span>
-	</div>
-
-	<div class="app-frame">
+	<div class="app-body" id="app-body">
 		<video autoplay id="camera-capture"></video>
 		<div class="canvas-container">
+			<div class="app-header">
+					<h1 class="app-header-title">Gooth!</h1>
+					<span class="app-header-subtitle">The EGGS GIF Booth</span>
+			</div>
 			<canvas id="canvas-stream" height="640" width="480"></canvas>
 		</div>
 		<div id="image-roll" class="hidden"></div>
 	</div>
 
-	<div class="camera-actions">
+	<div class="app-actions">
 		<button hidden id="btn-take-photo">Take photos (10)</button>
 		<button id="btn-make-gif" class="button--confirm button--main">Gooth!</button>
 	</div>
+
+	<div id="flash-container"></div>
 	
 	<div id="image-buffer"></div>
 	

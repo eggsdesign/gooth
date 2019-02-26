@@ -9,15 +9,31 @@ const imgGIF = document.querySelector('#image-gif')
 const cameraCapture = document.querySelector('#camera-capture')
 const resultOverlay = document.querySelector('#result-overlay')
 
-let gifSrc = ""
 
 const canvas = document.querySelector('#canvas-stream')
 const context = canvas.getContext('2d')
+
 let imageCapture
-var gif = new GIF({
-	workers: 2,
-	quality: 10
-});
+let gif
+let gifSrc = ""
+
+initialize = ()=>{
+	gif = new GIF({
+		workers: 2,
+		quality: 10
+	})
+
+	imageBuffer.innerHTML = ""
+	imageRoll.innerHTML = ""
+	imageRoll.classList.add('hidden')
+	resultOverlay.classList.add('hidden')
+
+	document.querySelectorAll('.flash').forEach((flash, key) => {
+		flash.remove()
+	})
+}
+
+initialize()
 
 // Check if image capture is allowed on this device
 navigator.mediaDevices.getUserMedia({video: true})
@@ -38,7 +54,7 @@ navigator.mediaDevices.getUserMedia({video: true})
 	
 function takePhoto() {
 	const flash = document.createElement('div')
-	document.querySelector('.app-frame').append(flash)
+	document.querySelector('#flash-container').append(flash)
 	flash.classList.add('flash')
 
 	const image = document.createElement('img')
@@ -53,8 +69,8 @@ function takePhoto() {
 	image.src = captureUrl
 
 	imageBuffer.append(image)
-	imageRoll.prepend(thumbnail)
-	imageRoll.classList.remove('hidden')
+	// imageRoll.prepend(thumbnail)
+	// imageRoll.classList.remove('hidden')
 }
 
 function takePhotos(counter, interval){
@@ -88,11 +104,15 @@ takePhotoButton.onclick = ()=>{
 }
 
 makeGIFButton.onclick = ()=>{ 
-	makeGif() 
+	takePhotos(10, 500)
+
+	setTimeout(() => {
+		makeGif() 
+	}, 10 * 500);
 }
 
 discardButton.onclick = ()=>{ 
-	location.reload() 
+	initialize()
 }
 
 uploadButton.onclick = ()=>{
