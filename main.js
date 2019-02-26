@@ -1,11 +1,16 @@
 const takePhotoButton = document.querySelector('#btn-take-photo');
 const makeGIFButton = document.querySelector('#btn-make-gif')
 const discardButton = document.querySelector('#btn-discard-gif')
+const uploadButton = document.getElementById('btn-upload')
+
 const imageBuffer = document.querySelector('#image-buffer')
 const imageRoll = document.querySelector('#image-roll')
 const imgGIF = document.querySelector('#image-gif')
 const cameraCapture = document.querySelector('#camera-capture')
 const resultOverlay = document.querySelector('#result-overlay')
+
+let gifSrc = ""
+
 const canvas = document.querySelector('#canvas-stream')
 const context = canvas.getContext('2d')
 let imageCapture
@@ -71,12 +76,41 @@ function makeGif() {
 
 	gif.on('finished', function(blob) {
 		imgGIF.src = URL.createObjectURL(blob)
+		gifSrc = imgGIF.src
 		resultOverlay.classList.remove('hidden')
 	});
 
 	gif.render()
 }
 
-takePhotoButton.onclick = ()=>{takePhotos(10, 500)}
-makeGIFButton.onclick = makeGif
-discardButton.onclick = ()=>{ location.reload() }
+takePhotoButton.onclick = ()=>{ 
+	takePhotos(10, 500) 
+}
+
+makeGIFButton.onclick = ()=>{ 
+	makeGif() 
+}
+
+discardButton.onclick = ()=>{ 
+	location.reload() 
+}
+
+uploadButton.onclick = ()=>{
+	if (gifSrc !== ""){
+		upload(gifSrc)
+	}
+}
+
+// Upload GIF
+const upload = (file) => {
+  fetch('http://httpbin.org/get', { 
+		method: 'GET', 
+		body: file
+	}).then(
+		response => response
+  ).then(
+    success => console.log(success)
+  ).catch(
+    error => console.log(error)
+  );
+};
