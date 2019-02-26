@@ -15,13 +15,15 @@
 
 	<div class="app-frame">
 		<video autoplay id="camera-capture"></video>
-		<canvas id="canvas-stream" height="640" width="480"></canvas>
+		<div class="canvas-container">
+			<canvas id="canvas-stream" height="640" width="480"></canvas>
+		</div>
 		<div id="image-roll" class="hidden"></div>
 	</div>
 
 	<div class="camera-actions">
-		<button id="btn-take-photo">Take photos (10)</button>
-		<button id="btn-make-gif" class="button--confirm">Make gif</button>
+		<button hidden id="btn-take-photo">Take photos (10)</button>
+		<button id="btn-make-gif" class="button--confirm button--main">Gooth!</button>
 	</div>
 	
 	<div id="image-buffer"></div>
@@ -30,6 +32,7 @@
 		<div class="result-container">
 			<img src="" alt="" id="image-gif"> 
 			<button id="btn-discard-gif" class="button--cancel">Discard</button>
+			<button class="button--confirm" id="btn-upload">Upload GIF</button>
 		</div>
 	</div>
 
