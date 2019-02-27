@@ -1,4 +1,4 @@
-const takePhotoButton = document.querySelector('#btn-take-photo');
+const takePhotoButton = document.querySelector('#btn-take-photo')
 const makeGIFButton = document.querySelector('#btn-make-gif')
 const discardButton = document.querySelector('#btn-discard-gif')
 const uploadButton = document.getElementById('btn-upload')
@@ -14,139 +14,189 @@ const inputInterval = document.querySelector('#input-interval')
 const canvas = document.querySelector('#canvas-stream')
 const context = canvas.getContext('2d')
 
+const TOKEN = 'skAoaUQ8j2BnjwBiVxIyLO3PskWXSkw4zCwGWoYoNb2qkcnjhwL1bcRaqspBU5lBtjDg0nuKDLQhx9avboSaHfHhvmXLAlXPxARc0PmKHhMOsCGQQ4lY5oCdob1fnq4lta4wLDMEyV8BTpy79O5ZfI06fh3zo6Ik5tC0xJh6wIFQysL3Onp8'
+const EXHIBITION = '98555641-f6f9-45ac-9066-6415908c2151'
+const BASEURL = 'https://mx0t3s2w.api.sanity.io/v1'
+const MUTATE = '/data/mutate/production'
+const ASSETS = '/assets/images/production'
+
 let imageCapture
 let gif
-let gifSrc = ""
+let gifSrc = ''
+let imageBlob = null
 
 let settings = {
-	frames: 10,
-	interval: 500,
+  frames: 2,
+  interval: 500
 }
 
-initialize = ()=>{
-	gif = new GIF({
-		workers: 2,
-		quality: 10
-	})
+initialize = () => {
+  gif = new GIF({
+    workers: 2,
+    quality: 10
+  })
 
-	imageBuffer.innerHTML = ""
-	resultOverlay.classList.add('hidden')
+  imageBuffer.innerHTML = ''
+  resultOverlay.classList.add('hidden')
 
-	document.querySelectorAll('.flash').forEach((flash, key) => {
-		flash.remove()
-	})
+  document.querySelectorAll('.flash').forEach((flash, key) => {
+    flash.remove()
+  })
 
-	inputFrames.value = settings.frames
-	inputInterval.value = settings.interval
+  inputFrames.value = settings.frames
+  inputInterval.value = settings.interval
 }
 
 // Check if image capture is allowed on this device
 navigator.mediaDevices.getUserMedia({video: true})
   .then(mediaStream => {
-		cameraCapture.srcObject = mediaStream;
-		
-    const track = mediaStream.getVideoTracks()[0];
-		imageCapture = new ImageCapture(track);
+    cameraCapture.srcObject = mediaStream
 
-		canvas.width = 640
-		canvas.height = 480
-		
-		setInterval(() => {
-			context.filter = 'grayscale(1) brightness(0.9) contrast(1.1)'
-			context.drawImage(cameraCapture,0,0)
-		}, 20);
-	})
-	
+    const track = mediaStream.getVideoTracks()[0]
+    imageCapture = new ImageCapture(track)
+
+    canvas.width = 640
+    canvas.height = 480
+
+    setInterval(() => {
+      context.filter = 'grayscale(1) brightness(0.9) contrast(1.1)'
+      context.drawImage(cameraCapture, 0, 0)
+    }, 20)
+  })
+
 function takePhoto() {
-	const flash = document.createElement('div')
-	document.querySelector('#flash-container').append(flash)
-	flash.classList.add('flash')
+  const flash = document.createElement('div')
+  document.querySelector('#flash-container').append(flash)
+  flash.classList.add('flash')
 
-	const image = document.createElement('img')
-	const thumbnail = document.createElement('img')
+  const image = document.createElement('img')
+  const thumbnail = document.createElement('img')
 
-	image.height = canvas.height
-	image.width = canvas.width
+  image.height = canvas.height
+  image.width = canvas.width
 
-	var captureUrl = canvas.toDataURL()
+  var captureUrl = canvas.toDataURL()
 
-	thumbnail.src = captureUrl
-	image.src = captureUrl
+  thumbnail.src = captureUrl
+  image.src = captureUrl
 
-	imageBuffer.append(image)
+  imageBuffer.append(image)
 }
 
-function takePhotos(counter, interval){
-	var i = 0;
-	let photoInterval = setInterval(() => {
-		if (i >= counter) {
-			clearInterval(photoInterval)
-		} else {
-			takePhoto()
-			i++;
-		}
-	}, interval);
+function takePhotos(counter, interval) {
+  var i = 0
+  let photoInterval = setInterval(() => {
+    if (i >= counter) {
+      clearInterval(photoInterval)
+    } else {
+      takePhoto()
+      i++
+    }
+  }, interval)
 }
 
 function makeGif() {
-	for (var i=0; i<imageBuffer.childElementCount; i++) {
-		gif.addFrame(imageBuffer.childNodes[i])
-	}
+  for (var i = 0; i < imageBuffer.childElementCount; i++) {
+    gif.addFrame(imageBuffer.childNodes[i])
+  }
 
-	gif.on('finished', function(blob) {
-		imgGIF.src = URL.createObjectURL(blob)
-		gifSrc = imgGIF.src
-		resultOverlay.classList.remove('hidden')
-	});
+  gif.on('finished', function (blob) {
+    imgGIF.src = URL.createObjectURL(blob)
+    gifSrc = imgGIF.src
+    imageBlob = blob
+    resultOverlay.classList.remove('hidden')
+  })
 
-	gif.render()
+  gif.render()
 }
 
 // Button events
-takePhotoButton.onclick = ()=>{ 
-	takePhotos(settings.frames, settings.interval) 
+takePhotoButton.onclick = () => {
+  takePhotos(settings.frames, settings.interval)
 }
 
-makeGIFButton.onclick = ()=>{ 
-	takePhotos(settings.frames, settings.interval)
+makeGIFButton.onclick = () => {
+  takePhotos(settings.frames, settings.interval)
 
-	setTimeout(() => {
-		makeGif() 
-	}, settings.frames * settings.interval);
+  setTimeout(() => {
+    makeGif()
+  }, settings.frames * settings.interval)
 }
 
-discardButton.onclick = ()=>{ 
-	initialize()
+discardButton.onclick = () => {
+  initialize()
 }
 
-uploadButton.onclick = ()=>{
-	if (gifSrc !== ""){
-		upload(gifSrc)
-	}
+uploadButton.onclick = () => {
+  if (gifSrc !== '') {
+    uploadImage(imageBlob)
+  }
 }
 
 // To set settings in UI
-inputFrames.onchange = (e)=>{
-	settings.frames = inputFrames.value
+inputFrames.onchange = (e) => {
+  settings.frames = inputFrames.value
 }
 
-inputInterval.onchange = (e)=>{
-	settings.interval = inputInterval.value
+inputInterval.onchange = (e) => {
+  settings.interval = inputInterval.value
 }
 
-// Upload GIF
-const upload = (file) => {
-  fetch('http://httpbin.org/get', { 
-		method: 'GET', 
-		body: file
-	}).then(
-		response => response
-  ).then(
-    success => console.log(success)
-  ).catch(
-    error => console.log(error)
-  );
-};
+function uploadImage(src) {
+  fetch(BASEURL + ASSETS, {
+      method: 'post',
+      body: src,
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Content-Type': 'image/gif'
+      }
+    }
+  )
+    .then(response => response.json())
+    .then(result => {
+      addImageToExhibition(result.document._id, result.document.assetId)
+    })
+    .catch(error => console.error(error))
+}
+
+function addImageToExhibition(id, assetId) {
+
+  const mutation = {
+    mutations: [
+      {
+        patch: {
+          id: EXHIBITION,
+          insert: {
+            after: 'images[-1]',
+            items: [
+              {
+                _key: assetId,
+                _type: 'image',
+                asset: {
+                  _type: 'reference',
+                  _ref: id
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+
+  fetch(BASEURL + MUTATE, {
+    method: 'post',
+    headers: {
+      'Authorization': `Bearer ${TOKEN}`,
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(mutation)
+  })
+    .then(response => response.json())
+    .then(result => console.log(result))
+    .catch(error => console.error(error))
+
+}
 
 // Init app on load
 initialize()
