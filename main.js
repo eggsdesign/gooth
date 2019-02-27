@@ -26,7 +26,7 @@ let gifSrc = ''
 let imageBlob = null
 
 let settings = {
-  frames: 2,
+  frames: 5,
   interval: 500
 }
 
