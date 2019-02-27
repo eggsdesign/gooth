@@ -62,7 +62,6 @@ body {
 }
 
 #canvas-stream {
-	border-radius: 4px;
 	overflow: hidden;
 	display: block;
 	width: 100%;
@@ -79,6 +78,7 @@ body {
 	height: 100%;
 	width: 90vw;
 	position: relative;
+	border-radius: 4px;
 }
 
 #image-roll {
