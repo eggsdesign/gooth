@@ -192,8 +192,7 @@ function addImageToExhibition(id, assetId) {
     },
     body: JSON.stringify(mutation)
   })
-    .then(response => response.json())
-    .then(result => console.log(result))
+    .then(() => initialize())
     .catch(error => console.error(error))
 
 }
