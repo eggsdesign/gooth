@@ -26,7 +26,7 @@ let gifSrc = ''
 let imageBlob = null
 
 let settings = {
-  frames: 5,
+  frames: 10,
   interval: 500
 }
 
@@ -96,8 +96,10 @@ function takePhotos(counter, interval) {
 }
 
 function makeGif() {
+  const d = Math.floor(Math.random() * 300) + 100
+
   for (var i = 0; i < imageBuffer.childElementCount; i++) {
-    gif.addFrame(imageBuffer.childNodes[i])
+    gif.addFrame(imageBuffer.childNodes[i], {delay: d})
   }
 
   gif.on('finished', function (blob) {
