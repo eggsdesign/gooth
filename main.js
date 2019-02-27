@@ -4,11 +4,12 @@ const discardButton = document.querySelector('#btn-discard-gif')
 const uploadButton = document.getElementById('btn-upload')
 
 const imageBuffer = document.querySelector('#image-buffer')
-const imageRoll = document.querySelector('#image-roll')
 const imgGIF = document.querySelector('#image-gif')
 const cameraCapture = document.querySelector('#camera-capture')
 const resultOverlay = document.querySelector('#result-overlay')
 
+const inputFrames = document.querySelector('#input-frames')
+const inputInterval = document.querySelector('#input-interval')
 
 const canvas = document.querySelector('#canvas-stream')
 const context = canvas.getContext('2d')
@@ -17,6 +18,11 @@ let imageCapture
 let gif
 let gifSrc = ""
 
+let settings = {
+	frames: 10,
+	interval: 500,
+}
+
 initialize = ()=>{
 	gif = new GIF({
 		workers: 2,
@@ -24,16 +30,15 @@ initialize = ()=>{
 	})
 
 	imageBuffer.innerHTML = ""
-	imageRoll.innerHTML = ""
-	imageRoll.classList.add('hidden')
 	resultOverlay.classList.add('hidden')
 
 	document.querySelectorAll('.flash').forEach((flash, key) => {
 		flash.remove()
 	})
-}
 
-initialize()
+	inputFrames.value = settings.frames
+	inputInterval.value = settings.interval
+}
 
 // Check if image capture is allowed on this device
 navigator.mediaDevices.getUserMedia({video: true})
@@ -69,8 +74,6 @@ function takePhoto() {
 	image.src = captureUrl
 
 	imageBuffer.append(image)
-	// imageRoll.prepend(thumbnail)
-	// imageRoll.classList.remove('hidden')
 }
 
 function takePhotos(counter, interval){
@@ -99,16 +102,17 @@ function makeGif() {
 	gif.render()
 }
 
+// Button events
 takePhotoButton.onclick = ()=>{ 
-	takePhotos(10, 500) 
+	takePhotos(settings.frames, settings.interval) 
 }
 
 makeGIFButton.onclick = ()=>{ 
-	takePhotos(10, 500)
+	takePhotos(settings.frames, settings.interval)
 
 	setTimeout(() => {
 		makeGif() 
-	}, 10 * 500);
+	}, settings.frames * settings.interval);
 }
 
 discardButton.onclick = ()=>{ 
@@ -119,6 +123,15 @@ uploadButton.onclick = ()=>{
 	if (gifSrc !== ""){
 		upload(gifSrc)
 	}
+}
+
+// To set settings in UI
+inputFrames.onchange = (e)=>{
+	settings.frames = inputFrames.value
+}
+
+inputInterval.onchange = (e)=>{
+	settings.interval = inputInterval.value
 }
 
 // Upload GIF
@@ -134,3 +147,6 @@ const upload = (file) => {
     error => console.log(error)
   );
 };
+
+// Init app on load
+initialize()

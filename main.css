@@ -25,6 +25,10 @@ body {
 	position: relative;
 }
 
+#settings.hidden {
+	display: none;
+}
+
 .app-body {
 	position: relative;
 	display: flex;
@@ -140,10 +144,15 @@ body {
 #image-gif {
 	display: block;
 	margin-bottom: 30px;
+	width: 100%;
+	border-radius: 4px;
+	overflow: hidden;
 }
 
 .result-container {
 	text-align: center;
+	width: 60vw;
+	height: auto;
 }
 
 button {
@@ -179,6 +188,17 @@ button.button--main {
 
 button.button--main:hover {
 	transform: scale(1.1)
+}
+
+input[type="text"]{
+	border: none;
+	border-radius: 2px;
+	padding: 6px;
+	font-size: 1.2em;
+}
+
+a, a:active, a:hover, a:visited {
+	color: #32c7da;
 }
 
 #flash-container {
