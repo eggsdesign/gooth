@@ -15,7 +15,7 @@ const canvas = document.querySelector('#canvas-stream')
 const context = canvas.getContext('2d')
 
 const TOKEN = 'skAoaUQ8j2BnjwBiVxIyLO3PskWXSkw4zCwGWoYoNb2qkcnjhwL1bcRaqspBU5lBtjDg0nuKDLQhx9avboSaHfHhvmXLAlXPxARc0PmKHhMOsCGQQ4lY5oCdob1fnq4lta4wLDMEyV8BTpy79O5ZfI06fh3zo6Ik5tC0xJh6wIFQysL3Onp8'
-const EXHIBITION = '98555641-f6f9-45ac-9066-6415908c2151'
+const EXHIBITION = 'a7aa0820-d039-4956-ab50-0bf75c8d4d15'
 const BASEURL = 'https://mx0t3s2w.api.sanity.io/v1'
 const MUTATE = '/data/mutate/production'
 const ASSETS = '/assets/images/production'
