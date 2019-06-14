@@ -2,11 +2,13 @@ const takePhotoButton = document.querySelector('#btn-take-photo')
 const makeGIFButton = document.querySelector('#btn-make-gif')
 const discardButton = document.querySelector('#btn-discard-gif')
 const uploadButton = document.getElementById('btn-upload')
+const toggleSettingsButton = document.getElementById('btn-toggle-settings')
 
 const imageBuffer = document.querySelector('#image-buffer')
 const imgGIF = document.querySelector('#image-gif')
 const cameraCapture = document.querySelector('#camera-capture')
 const resultOverlay = document.querySelector('#result-overlay')
+const settingsContainer = document.querySelector('#settings')
 
 const inputFrames = document.querySelector('#input-frames')
 const inputInterval = document.querySelector('#input-interval')
@@ -134,6 +136,10 @@ uploadButton.onclick = () => {
     uploadImage(imageBlob)
   }
 }
+
+toggleSettingsButton.addEventListener('click', () => {
+  settingsContainer.classList.toggle('hidden')
+})
 
 // To set settings in UI
 inputFrames.onchange = (e) => {

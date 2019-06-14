@@ -22,19 +22,43 @@
 
 	<div class="app-actions">
 		<button hidden id="btn-take-photo">Take photos (10)</button>
+		<button id="btn-toggle-settings" class="button--main">Settings</button>
 		<button id="btn-make-gif" class="button--confirm button--main">Gooth!</button>
+	</div>
 
-		<div id="settings" class="hidden">
+	<div id="settings" class="hidden">
+		<div class="stacked-view">
+			
+			<h2>Settings</h2>
+
+			<div class="row-view">
+				<label class="input-block">
+					Frames per capture
+					<input type="text" placeholder="Frames per GIF" id="input-frames">
+				</label>
+				
+				<label class="input-block">
+					Frame interval
+					<input type="text" placeholder="Frame interval" id="input-interval">
+				</label>
+
+				<label class="input-block">
+					Exhibition
+					<select id="exhibition-picker">
+						<option value="">lol</option>
+						<option value="">Two</option>
+					</select>
+				</label>
+			</div>
+
 			<a href="./viewer.html">Go to viewer</a>
-			<input type="text" placeholder="Frames per GIF" id="input-frames">
-			<input type="text" placeholder="Frame interval" id="input-interval">
 		</div>
 	</div>
 
 	<div id="image-buffer"></div>
 
-	<div id="result-overlay" class="hidden">
-		<div class="result-container">
+	<div id="result-overlay" class="hidden modal-cover">
+		<div class="result-container modal-content">
 			<img src="" alt="" id="image-gif">
 			<button id="btn-discard-gif" class="button--cancel">Discard</button>
 			<button class="button--confirm" id="btn-upload">Upload GIF</button>
@@ -42,6 +66,6 @@
 	</div>
 
 	<script src="gif.js"></script>
-	<script src="main.js?v=2"></script>
+	<script src="main.js?v=3"></script>
 </body>
 </html>
